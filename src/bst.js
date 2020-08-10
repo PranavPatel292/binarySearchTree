@@ -10,6 +10,8 @@ let distance_x = 550;
 let distance_y = 90;
 let depth = 0;
 let current_x, current_y, minX, maxX, parentX, parentY;
+let reset_nodes = [];
+
 
 class BST{
 	constructor(value, x, y, minWidth, maxWidth){
@@ -78,6 +80,7 @@ function enterNumber() {
 		demo.insert(value, current_x, current_y)
 		draw_circle(current_x, current_y, value, parentX, parentY)
 	}
+	reset_Tree_Visual(reset_nodes);
 	document.getElementById("number").value = ""
 }
 
@@ -104,9 +107,9 @@ function draw_circle(x, y, value, pX, pY){
 	ctx.stroke()
 }
 
-let reset_nodes = [];
 
-async function findEle(){
+
+function reset_Tree_Visual(reset_nodes){
 	if(reset_nodes.length > 0){
 		for(let i = 0; i < reset_nodes.length; ++i){
 			ctx.beginPath()
@@ -128,6 +131,10 @@ async function findEle(){
 		}
 		reset_nodes = [];
 	}
+}
+let firstNodeVisual = true;
+async function findEle(){
+	reset_Tree_Visual(reset_nodes)
 	let value = (document.getElementById("number").value)
 	if(!value == ""){
 		if(await contains(demo, parseInt(value))){alert("Found")} else{
@@ -136,7 +143,7 @@ async function findEle(){
 	}else{
 		alert("Cannot search for the blank value!")
 	}
-	
+	firstNodeVisual = true;
 }
 function resetAll(){
 	demo = new BST();
@@ -151,6 +158,25 @@ function sleep(ms){
 async function contains(demo, value) {
     // Write your code here.
     document.getElementById("comp").innerHTML = "Comparing the value: - " + value + " and " + demo.value
+    if(firstNodeVisual){
+    	firstNodeVisual = false;
+    	ctx.beginPath()
+		ctx.lineWidth = 5;
+		ctx.arc(demo.x, demo.y, 20, 0, 2 * Math.PI, true)
+		ctx.fillStyle = "red";
+		ctx.fill();
+		ctx.stroke()
+
+		//this if for the text
+		ctx.beginPath()
+		ctx.font = "15px Arial"
+		ctx.fillStyle = "white";
+		ctx.fill();
+		ctx.textAlign = "center";
+		ctx.fillText(demo.value, demo.x, demo.y + 5)
+		ctx.stroke();
+		reset_nodes.push([demo.x, demo.y, demo.value])
+    }
     await sleep(1500)
 		if(value < demo.value){
 			if(demo.left == null){
