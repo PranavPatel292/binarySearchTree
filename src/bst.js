@@ -113,8 +113,30 @@ function draw_circle(x, y, value, pX, pY){
 	ctx.stroke()
 }
 
+let reset_nodes = [];
 
 async function findEle(){
+	if(reset_nodes.length > 0){
+		for(let i = 0; i < reset_nodes.length; ++i){
+			ctx.beginPath()
+			ctx.lineWidth = 5;
+			ctx.arc(reset_nodes[i][0], reset_nodes[i][1], 20, 0, 2 * Math.PI, true)
+			ctx.fillStyle = "white";
+			ctx.fill();
+			ctx.stroke()
+
+			//this if for the text
+
+			ctx.beginPath()
+			ctx.font = "15px Arial"
+			ctx.fillStyle = "black";
+			ctx.fill();
+			ctx.textAlign = "center";
+			ctx.fillText(reset_nodes[i][2], reset_nodes[i][0], reset_nodes[i][1] + 5)
+			ctx.stroke();
+		}
+		reset_nodes = [];
+	}
 	let value = (document.getElementById("number").value)
 	if(await contains(demo, value)){alert("Found")} else{
 		alert("Not found!")
@@ -153,6 +175,7 @@ async function contains(demo, value) {
 				ctx.textAlign = "center";
 				ctx.fillText(demo.value, demo.x, demo.y + 5)
 				ctx.stroke();
+				reset_nodes.push([demo.x, demo.y, demo.value])
 				document.getElementById("comp").innerHTML = value + " is not found in this tree.!"
 				return false
 			}else{
@@ -172,6 +195,7 @@ async function contains(demo, value) {
 				ctx.textAlign = "center";
 				ctx.fillText(demo.left.value, demo.left.x, demo.left.y + 5)
 				ctx.stroke();
+				reset_nodes.push([demo.left.x, demo.left.y, demo.left.value])
 				return await contains(demo.left, value)
 			}
 		}else if (value > demo.value){
@@ -192,6 +216,7 @@ async function contains(demo, value) {
 				ctx.textAlign = "center";
 				ctx.fillText(demo.value, demo.x, demo.y + 5)
 				ctx.stroke();
+				reset_nodes.push([demo.x, demo.y, demo.value])
 				document.getElementById("comp").innerHTML = value + " is not found in this tree.!"
 				return false
 			}else{
@@ -211,7 +236,7 @@ async function contains(demo, value) {
 				ctx.textAlign = "center";
 				ctx.fillText(demo.right.value, demo.right.x, demo.right.y + 5)
 				ctx.stroke();
-
+				reset_nodes.push([demo.right.x, demo.right.y, demo.right.value])
 				return await contains(demo.right, value)
 			}
 		}else{
