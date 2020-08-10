@@ -87,6 +87,7 @@ function enterNumber() {
 		draw_circle(current_x, current_y, value, parentX, parentY)
 	}
 	console.log(demo)
+	document.getElementById("number").value = ""
 }
 
 function draw_circle(x, y, value, pX, pY){
