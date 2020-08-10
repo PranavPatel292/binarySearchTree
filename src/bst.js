@@ -130,7 +130,7 @@ async function findEle(){
 	}
 	let value = (document.getElementById("number").value)
 	if(!value == ""){
-		if(await contains(demo, value)){alert("Found")} else{
+		if(await contains(demo, parseInt(value))){alert("Found")} else{
 		alert("Not found!")
 		}
 	}else{
