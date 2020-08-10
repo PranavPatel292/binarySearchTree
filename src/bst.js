@@ -60,15 +60,7 @@ class BST{
 			}
 		}
 		return this
-	}
-
-	print_in_order(node){
-		if(node == null) return;
-		this.print_in_order(node.left)
-		console.log(node.value)
-		this.print_in_order(node.right)
-	}
-}
+	}}
 
 let demo;
 
@@ -86,7 +78,6 @@ function enterNumber() {
 		demo.insert(value, current_x, current_y)
 		draw_circle(current_x, current_y, value, parentX, parentY)
 	}
-	console.log(demo)
 	document.getElementById("number").value = ""
 }
 
@@ -107,7 +98,6 @@ function draw_circle(x, y, value, pX, pY){
 	ctx.stroke();
 
 	if(pX == 0 && pY == 0) return
-	console.log("Parent corridnates: ", pX, pY)
 	ctx.lineWidth = 5;
 	ctx.moveTo(x, y - 20);
 	ctx.lineTo(pX - 5, pY + 20); //parent node
