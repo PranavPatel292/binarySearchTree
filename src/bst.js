@@ -1,0 +1,156 @@
+var c = document.getElementById("myCanvas");
+var ctx = c.getContext("2d");
+
+const canvas_width = document.getElementById("myCanvas").width;
+const canvas_height = document.getElementById("myCanvas").height;
+
+let root_x = Math.floor(canvas_width / 2)
+let root_y = 50
+let distance_x = 550;
+let distance_y = 90;
+let depth = 0;
+let current_x, current_y, minX, maxX, parentX, parentY;
+
+class BST{
+	constructor(value, x, y, minWidth, maxWidth){
+		this.value = value;
+		this.left = null;
+		this.right = null;
+		this.x = x;
+		this.y = y;
+		this.maxWidth = maxWidth;
+		this.minWidth = minWidth;
+	}
+
+	insert(value, x, y){
+		if(value < this.value){
+			if(this.left == null){
+				current_x = this.x;
+				current_y = this.y;
+				//current_x is the value of root node x, current_y is the value of root node y;
+				this.left = new BST(value, 0, 0)
+				this.left.minWidth = this.minWidth;
+				this.left.maxWidth = this.x;
+				this.left.x = this.left.minWidth + Math.floor(this.left.maxWidth - this.left.minWidth) / 2;
+				this.left.y = current_y + distance_y
+				parentX = current_x;
+				parentY = current_y
+				current_x = this.left.x;
+				current_y = this.left.y;
+			}else{
+				this.left.insert(value, x, y)
+			}
+		}else{
+			if(this.right == null){
+				current_x = this.x;
+				current_y = this.y;
+				this.right = new BST(value, 0, 0)
+				this.right.minWidth = this.x;
+				this.right.maxWidth = this.maxWidth;
+				this.right.x = Math.floor(this.right.maxWidth + this.right.minWidth) / 2;
+				this.right.y = current_y + distance_y;
+				// current_x = current_x + distance_x + 30;
+				// current_y = current_y + distance_y;
+				parentX = current_x;
+				parentY = current_y
+				current_x = this.right.x
+				current_y = this.right.y
+			}else{
+				this.right.insert(value, x, y)
+			}
+		}
+		return this
+	}
+
+	print_in_order(node){
+		if(node == null) return;
+		this.print_in_order(node.left)
+		console.log(node.value)
+		this.print_in_order(node.right)
+	}
+}
+
+let demo;
+
+
+let root = true;
+
+function enterNumber() {
+	let value = parseInt(document.getElementById("number").value);
+	if(root){
+		demo = new BST(value, root_x, root_y, 0, canvas_width)
+		root = false;
+		draw_circle(root_x, root_y, value, 0, 0)
+		current_x = root_x; current_y = root_y;
+	}else{
+		demo.insert(value, current_x, current_y)
+		draw_circle(current_x, current_y, value, parentX, parentY)
+	}
+	console.log(demo)
+}
+
+function draw_circle(x, y, value, pX, pY){
+	ctx.beginPath()
+	ctx.lineWidth = 5;
+	ctx.arc(x, y, 20, 0, 2 * Math.PI, true)
+	ctx.fillStyle = "white";
+ctx.fill();
+	ctx.stroke()
+	//this is for the text inside the circle
+	ctx.beginPath()
+	ctx.font = "15px Arial"
+	ctx.fillStyle = "black";
+ctx.fill();
+	ctx.textAlign = "center";
+	ctx.fillText(value, x, y + 5)
+	ctx.stroke();
+
+	if(pX == 0 && pY == 0) return
+	console.log("Parent corridnates: ", pX, pY)
+	ctx.lineWidth = 5;
+	ctx.moveTo(x, y - 20);
+	ctx.lineTo(pX - 5, pY + 20); //parent node
+	ctx.stroke()
+}
+
+
+async function findEle(){
+	let value = (document.getElementById("number").value)
+	console.log(contains(demo, value))
+	
+}
+
+function sleep(ms){
+    return new Promise(resolve => setTimeout(resolve, ms))
+}
+
+function contains(demo, value) {
+    // Write your code here.
+    //await sleep(1000)
+		if(value < demo.value){
+			if(demo.left == null){
+				return false
+			}else{
+				ctx.beginPath()
+	ctx.lineWidth = 5;
+	ctx.arc(demo.left.x, demo.left.y, 20, 0, 2 * Math.PI, true)
+	ctx.fillStyle = "red";
+ctx.fill();
+	ctx.stroke()
+				return contains(demo.left, value)
+			}
+		}else if (value > demo.value){
+			if (demo.right == null){
+				return false
+			}else{
+				return contains(demo.right, value)
+			}
+		}else{
+			ctx.lineWidth = 5;
+	ctx.arc(demo.x, demo.y, 20, 0, 2 * Math.PI, true)
+	ctx.fillStyle = "green";
+ctx.fill();
+	ctx.stroke()
+			return true
+		}
+}
