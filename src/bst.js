@@ -133,7 +133,8 @@ function sleep(ms){
 
 async function contains(demo, value) {
     // Write your code here.
-    await sleep(1000)
+    document.getElementById("comp").innerHTML = "Comparing the value: - " + value + " and " + demo.value
+    await sleep(1500)
 		if(value < demo.value){
 			if(demo.left == null){
 				ctx.beginPath()
@@ -152,6 +153,7 @@ async function contains(demo, value) {
 				ctx.textAlign = "center";
 				ctx.fillText(demo.value, demo.x, demo.y + 5)
 				ctx.stroke();
+				document.getElementById("comp").innerHTML = value + " is not found in this tree.!"
 				return false
 			}else{
 				ctx.beginPath()
@@ -190,6 +192,7 @@ async function contains(demo, value) {
 				ctx.textAlign = "center";
 				ctx.fillText(demo.value, demo.x, demo.y + 5)
 				ctx.stroke();
+				document.getElementById("comp").innerHTML = value + " is not found in this tree.!"
 				return false
 			}else{
 				ctx.beginPath()
@@ -226,6 +229,7 @@ async function contains(demo, value) {
 			ctx.textAlign = "center";
 			ctx.fillText(demo.value, demo.x, demo.y + 5)
 			ctx.stroke();
+			document.getElementById("comp").innerHTML = value + " is found in this tree.!"
 			return true
 		}
 }
