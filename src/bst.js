@@ -150,6 +150,7 @@ function resetAll(){
 	root = true;
 	ctx.clearRect(0, 0 ,canvas_width, canvas_height)
 	document.getElementById("number").value = ""
+	document.getElementById("comp").innerHTML = "You can see the current status of the Binary Search here.!"
 }
 function sleep(ms){
     return new Promise(resolve => setTimeout(resolve, ms))
