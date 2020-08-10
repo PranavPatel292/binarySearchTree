@@ -129,8 +129,12 @@ async function findEle(){
 		reset_nodes = [];
 	}
 	let value = (document.getElementById("number").value)
-	if(await contains(demo, value)){alert("Found")} else{
+	if(!value == ""){
+		if(await contains(demo, value)){alert("Found")} else{
 		alert("Not found!")
+		}
+	}else{
+		alert("Cannot search for the blank value!")
 	}
 	
 }
