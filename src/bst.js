@@ -94,13 +94,13 @@ function draw_circle(x, y, value, pX, pY){
 	ctx.lineWidth = 5;
 	ctx.arc(x, y, 20, 0, 2 * Math.PI, true)
 	ctx.fillStyle = "white";
-ctx.fill();
+	ctx.fill();
 	ctx.stroke()
 	//this is for the text inside the circle
 	ctx.beginPath()
 	ctx.font = "15px Arial"
 	ctx.fillStyle = "black";
-ctx.fill();
+	ctx.fill();
 	ctx.textAlign = "center";
 	ctx.fillText(value, x, y + 5)
 	ctx.stroke();
@@ -116,41 +116,116 @@ ctx.fill();
 
 async function findEle(){
 	let value = (document.getElementById("number").value)
-	console.log(contains(demo, value))
+	if(await contains(demo, value)){alert("Found")} else{
+		alert("Not found!")
+	}
 	
 }
-
+function resetAll(){
+	demo = new BST();
+	root = true;
+	ctx.clearRect(0, 0 ,canvas_width, canvas_height)
+	document.getElementById("number").value = ""
+}
 function sleep(ms){
     return new Promise(resolve => setTimeout(resolve, ms))
 }
 
-function contains(demo, value) {
+async function contains(demo, value) {
     // Write your code here.
-    //await sleep(1000)
+    await sleep(1000)
 		if(value < demo.value){
 			if(demo.left == null){
+				ctx.beginPath()
+				ctx.lineWidth = 5;
+				ctx.arc(demo.x, demo.y, 20, 0, 2 * Math.PI, true)
+				ctx.fillStyle = "red";
+				ctx.fill();
+				ctx.stroke()
+
+				//this if for the text
+
+				ctx.beginPath()
+				ctx.font = "15px Arial"
+				ctx.fillStyle = "white";
+				ctx.fill();
+				ctx.textAlign = "center";
+				ctx.fillText(demo.value, demo.x, demo.y + 5)
+				ctx.stroke();
 				return false
 			}else{
 				ctx.beginPath()
-	ctx.lineWidth = 5;
-	ctx.arc(demo.left.x, demo.left.y, 20, 0, 2 * Math.PI, true)
-	ctx.fillStyle = "red";
-ctx.fill();
-	ctx.stroke()
-				return contains(demo.left, value)
+				ctx.lineWidth = 5;
+				ctx.arc(demo.left.x, demo.left.y, 20, 0, 2 * Math.PI, true)
+				ctx.fillStyle = "red";
+				ctx.fill();
+				ctx.stroke()
+
+				//this if for the text
+
+				ctx.beginPath()
+				ctx.font = "15px Arial"
+				ctx.fillStyle = "white";
+				ctx.fill();
+				ctx.textAlign = "center";
+				ctx.fillText(demo.left.value, demo.left.x, demo.left.y + 5)
+				ctx.stroke();
+				return await contains(demo.left, value)
 			}
 		}else if (value > demo.value){
 			if (demo.right == null){
+				ctx.beginPath()
+				ctx.lineWidth = 5;
+				ctx.arc(demo.x, demo.y, 20, 0, 2 * Math.PI, true)
+				ctx.fillStyle = "red";
+				ctx.fill();
+				ctx.stroke()
+
+				//this if for the text
+
+				ctx.beginPath()
+				ctx.font = "15px Arial"
+				ctx.fillStyle = "white";
+				ctx.fill();
+				ctx.textAlign = "center";
+				ctx.fillText(demo.value, demo.x, demo.y + 5)
+				ctx.stroke();
 				return false
 			}else{
-				return contains(demo.right, value)
+				ctx.beginPath()
+				ctx.lineWidth = 5;
+				ctx.arc(demo.right.x, demo.right.y, 20, 0, 2 * Math.PI, true)
+				ctx.fillStyle = "red";
+				ctx.fill();
+				ctx.stroke()
+
+				//this if for the text
+
+				ctx.beginPath()
+				ctx.font = "15px Arial"
+				ctx.fillStyle = "white";
+				ctx.fill();
+				ctx.textAlign = "center";
+				ctx.fillText(demo.right.value, demo.right.x, demo.right.y + 5)
+				ctx.stroke();
+
+				return await contains(demo.right, value)
 			}
 		}else{
 			ctx.lineWidth = 5;
-	ctx.arc(demo.x, demo.y, 20, 0, 2 * Math.PI, true)
-	ctx.fillStyle = "green";
-ctx.fill();
-	ctx.stroke()
+			ctx.arc(demo.x, demo.y, 20, 0, 2 * Math.PI, true)
+			ctx.fillStyle = "green";
+			ctx.fill();
+			ctx.stroke()
+
+			//this is for the text
+			ctx.beginPath()
+			ctx.font = "15px Arial"
+			ctx.fillStyle = "white";
+			ctx.fill();
+			ctx.textAlign = "center";
+			ctx.fillText(demo.value, demo.x, demo.y + 5)
+			ctx.stroke();
 			return true
 		}
 }
